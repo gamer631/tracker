@@ -2,6 +2,7 @@ package com.gamer631.crashtracker
 
 import android.app.*
 import android.content.*
+import android.content.pm.ServiceInfo
 import android.graphics.PixelFormat
 import android.media.Image
 import android.media.ImageReader
