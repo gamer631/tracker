@@ -33,7 +33,7 @@ def rolling_backtest(values:list[float],target:float,window:int=100)->dict:
     vals=[float(v) for v in values if float(v)>0]
     if len(vals)<2:return {"test_n":0,"hits":0,"rate":None,"baseline_mean":None}
     hits=0; test_n=0; baseline=[]
-    for i in range(max(1,len(vals)-window),len(vals)):
+    for i in range(1,len(vals)):
         hist=vals[max(0,i-window):i]
         if hist:
             baseline.append(sum(x>=target for x in hist)/len(hist))
