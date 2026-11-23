@@ -178,9 +178,18 @@ class MainActivity : Activity() {
         val low = rounds.count { it < 2.0 }
         val high = rounds.count { it >= 10.0 }
         val recent = rounds.takeLast(40).reversed().mapIndexed { index, value -> "%02d  %.2fx".format(count - index, value) }.joinToString("\n")
-        history.text = "Rounds: $count\nAverage: %.2fx · Median: %.2fx\nBelow 2x: %d (%.1f%%)\n10x+: %d (%.1f%%)\n\nRECENT ROUNDS\n%s".format(
+        val mid = rounds.count { it >= 2.0 && it < 5.0 }
+        val highBand = rounds.count { it >= 5.0 && it < 10.0 }
+        var lowStreak = 0
+        for (value in rounds.asReversed()) { if (value < 2.0) lowStreak++ else break }
+        var highStreak = 0
+        for (value in rounds.asReversed()) { if (value >= 10.0) highStreak++ else break }
+        history.text = "Rounds: $count\\nAverage: %.2fx · Median: %.2fx\\nLow (<2x): %d (%.1f%%)\\n2–5x: %d (%.1f%%)\\n5–10x: %d (%.1f%%)\\n10x+: %d (%.1f%%)\\nCurrent low streak: %d · high streak: %d\\n\\nRECENT ROUNDS\\n%s".format(
             average, median, low, if (count > 0) 100.0 * low / count else 0.0,
-            high, if (count > 0) 100.0 * high / count else 0.0, recent
+            mid, if (count > 0) 100.0 * mid / count else 0.0,
+            highBand, if (count > 0) 100.0 * highBand / count else 0.0,
+            high, if (count > 0) 100.0 * high / count else 0.0,
+            lowStreak, highStreak, recent
         )
     }
 
